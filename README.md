@@ -1,6 +1,7 @@
 # Jogo da Velha - API #
 	
-[github] (https://github.com/ItaloFVN/Jogo-da-Velha---API)
+<a href="https://github.com/ItaloFVN/Jogo-da-Velha---API">Github</a>
+<a href="https://www.linkedin.com/in/italo-nascimento-945b89198/">LinkedIn</a>
 
 # Descrição do Projeto #
 

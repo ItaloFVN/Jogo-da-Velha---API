@@ -26,14 +26,14 @@ compile o projeto em qualquer IDE sendo server.js o arquivo de inicialização.
 - POST -/game/{id}/movement 
 ----------------
 {
-	"id" : {id},
+	"id" : {id}, \n
     "firstPlayer": {param},
     "position": {
         "X": {param},
         "Y": {param}
     }
 }
-
+---------------
  
 
 

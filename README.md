@@ -1,4 +1,6 @@
 # Jogo da Velha - API #
+	
+https://github.com/ItaloFVN/Jogo-da-Velha---API
 
 # Descrição do Projeto #
 
@@ -16,6 +18,7 @@ compile o projeto em qualquer IDE sendo server.js o arquivo de inicialização.
 
 O server inicaliza o projeto iniciando uma conexão com a porta (8080) -> basta ir em server.js para alterar a porta utilizada
 As requisições são feitas passando um JSON como parametro e as respostas tambem são por JSON
+Os jogos são salvos em arquivos .txt com o nome de (temp + {id}) dentro da pasta saves encontrada no projeto
 
 
 

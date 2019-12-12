@@ -24,16 +24,14 @@ compile o projeto em qualquer IDE sendo server.js o arquivo de inicialização.
 # Parametros #
 
 - POST -/game/{id}/movement 
-----------------
-{
-	"id" : {id}, \n
-    "firstPlayer": {param},
-    "position": {
-        "X": {param},
-        "Y": {param}
-    }
-}
----------------
- 
+<p>{<br>
+	"id" : {id},<br>
+    "firstPlayer": {param},<br>
+    "position": {<br>
+           "X": {param},<br>
+           "Y": {param}<br>
+      }<br>
+}<br></p>
+
 
 

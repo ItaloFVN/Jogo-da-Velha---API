@@ -1,6 +1,6 @@
 # Jogo da Velha - API #
 	
-[github] https://github.com/ItaloFVN/Jogo-da-Velha---API
+[github] (https://github.com/ItaloFVN/Jogo-da-Velha---API)
 
 # Descrição do Projeto #
 
@@ -22,7 +22,7 @@ compile o projeto em qualquer IDE sendo server.js o arquivo de inicialização.
 
 # Parametros #
 
-1.POST -/game/{id}/movement 
+- POST -/game/{id}/movement 
 ----------------
 {
 	"id" : {id},

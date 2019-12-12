@@ -21,6 +21,14 @@ compile o projeto em qualquer IDE sendo server.js o arquivo de inicialização.
 2. As requisições são feitas passando um JSON como parametro e as respostas tambem são por JSON
 3. Os jogos são salvos em arquivos .txt com o nome de (temp + {id}) dentro da pasta saves encontrada no projeto
 
+# Visão das casas do jogo #
+
+| Coluna 0  | Coluna 1 | Coluna 2 |
+|-----------|----------|----------|
+|X =0 ; y=0 |X =0 ; y=1|X =0 ; y=2|
+|X =1 ; y=0 |X =1 ; y=1|X =1 ; y=2|
+|X =2 ; y=0 |X =2 ; y=1|X =2 ; y=2|
+
 # Parametros #
 
 - POST -/game/{id}/movement 

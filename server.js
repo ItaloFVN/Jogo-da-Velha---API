@@ -1,12 +1,11 @@
 const http = require('http');
 const app = require('./app');
 
-//define a porta na qual ocorrera conexão
+//define a porta na qual ocorrera conexï¿½o
 const port = process.env.PORT || 8080;
 
 //inicializa o server
 const server = http.createServer(app);
 
-//reage às chamadas para o servidor
+//reage ï¿½s chamadas para o servidor
 server.listen(port);
-

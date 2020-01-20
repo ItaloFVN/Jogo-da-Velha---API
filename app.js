@@ -2,12 +2,16 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
+
 //constante para as rotas aos arquivos | game.js && movement.js
 const gameRoutes = require('./routes/game.js');
 const movementRoutes = require('./routes/movement.js');
 
-// permite trabalhar com requisições no formato JSON corretamente
+// permite trabalhar com requisiï¿½ï¿½es no formato JSON corretamente
 app.use(bodyParser.json());
+
+
+
 
 //CORS do projeto
 app.use((req, res, next) => {
@@ -29,6 +33,13 @@ app.use('/game', gameRoutes);
 //rota para as chamadas '/game/{id}/movement'
 app.use('/game/*/movement', movementRoutes); 
 
+//chamada do index
+app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/views'));
+
+app.get('/', (req, res) => {
+    res.sendFile('index.html')
+})
 
 module.exports = app;
 

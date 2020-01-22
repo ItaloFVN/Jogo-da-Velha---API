@@ -1,0 +1,1 @@
+{"id":"h7aaryrum","firstPlayer":"X","lastTurn":"O","positions":{"10":"O","11":"O","12":"O","20":null,"21":null,"22":null,"00":"X","01":"X","02":"X"}}

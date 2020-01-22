@@ -11,7 +11,7 @@ router.post('/', (req, res, next) => {
         //verifica se existe uma partida/jogo/arquivo com o ID disponibilizado
         if (err) {
             res.status(404).json({
-                message: 'Partida não encontrada'
+                message: 'Partida nï¿½o encontrada'
             });
         }
         else {
@@ -35,20 +35,20 @@ router.post('/', (req, res, next) => {
 
 //verifica o jogador do turno atual
 //Arquivo -> Objeto JSON da leitura do arquivo txt
-//req -> parametros passado pela requisição
+//req -> parametros passado pela requisiï¿½ï¿½o
 //res -> resposta
 function verificaJogador(arquivo, req, res){
     if (arquivo.lastTurn == null && arquivo.firstPlayer != req.body.player) {
         console.log(req.body.player);
-        res.status(200).json({
-            message: 'Não é turno do jogador'
+        res.status(201).json({
+            message: 'Nï¿½o ï¿½ turno do jogador'
         });
         return false
     }
     else if (arquivo.lastTurn == req.body.player) {
         console.log(req.body.player);
-        res.status(200).json({
-            message: 'Não é turno do jogador'
+        res.status(201).json({
+            message: 'Nï¿½o ï¿½ turno do jogador'
         });
         return false;
     }
@@ -57,13 +57,13 @@ function verificaJogador(arquivo, req, res){
 
 //Metodo que aplica a jogada e a insere em um arquivo txt
 //Arquivo -> Objeto JSON da leitura do arquivo txt
-//Posição -> Posicao em que sera inserido um valor
-//req -> parametros passado pela requisição
+//Posiï¿½ï¿½o -> Posicao em que sera inserido um valor
+//req -> parametros passado pela requisiï¿½ï¿½o
 //res -> resposta
 function realizaJogada(arquivo, posicao, req, res) {
 
     //confere se a posicao passada encontra-se vazia
-    //caso contrario responde que a posicao passada é invalida
+    //caso contrario responde que a posicao passada ï¿½ invalida
     if (arquivo.positions[posicao] == null) {
 
         //insere um valor na posicao passada
@@ -76,7 +76,7 @@ function realizaJogada(arquivo, posicao, req, res) {
         resultado = fs.writeFile('./saves/temp' + arquivo.id + '.txt', JSON.stringify(arquivo), function (err) {
             if (err) {
                 res.status(404).json({
-                    message: 'Partida não encontrada'
+                    message: 'Partida nï¿½o encontrada'
                 });
             }
             else {
@@ -87,7 +87,7 @@ function realizaJogada(arquivo, posicao, req, res) {
                 //Condicao para avisar que houve um vencedor
                 //Caso contrario informa que a jogada foi realizada com sucesso
                 if (vencedor != null) {
-                    res.status(200).json({
+                    res.status(202).json({
                         message: 'Partida finalizada',
                         winner: vencedor
                     });
@@ -101,7 +101,7 @@ function realizaJogada(arquivo, posicao, req, res) {
         });
     }
     else {
-        res.status(200).json({
+        res.status(203).json({
             message: 'Posicao indisponivel'
         });
     }

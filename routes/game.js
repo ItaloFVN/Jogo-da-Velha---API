@@ -7,7 +7,7 @@ router.post('/', (req, res, next) => {
     // Cria um Id aleatorio
     var id = Math.random().toString(36).substr(2, 9);
     
-    //Cria um número aleatório do tamanho definido em size.
+    //Cria um nï¿½mero aleatï¿½rio do tamanho definido em size.
     var size = 3;
     var randomized = Math.ceil(Math.random() * Math.pow(10, size));
 
@@ -33,7 +33,7 @@ router.post('/', (req, res, next) => {
         }
     }
 
-    //cria o arquivo/jogo e retorna true caso não tenha ocorrido nenhum erro
+    //cria o arquivo/jogo e retorna true caso nï¿½o tenha ocorrido nenhum erro
     if (criarJogo(txt) == true) {
        
         res.status(200).json({
@@ -64,7 +64,7 @@ function criarJogo(txt) {
     fs.writeFile('./saves/temp' + txt.id + '.txt', JSON.stringify(txt), function (err) {
         if (err) {
             res.status(200).json({
-                message: 'Partida não encontrada'
+                message: 'Partida nï¿½o encontrada'
             });
             return false;
         }

@@ -1,44 +1,46 @@
 <!doctype html>
 <html> 
     <head>
-       
         <link rel="stylesheet" type="text/css" href="stylesheets/estilo.css" />
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script> -->
-        
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     </head>
     <body>
         <div id="jogo">
             <div class="linha">
-                <div class="casa" id="casa1"></div>
-                <div class="casa" id="casa2"></div>
-                <div class="casa" id="casa3"></div>
+                <div class="casa" id="casa00"></div>
+                <div class="casa" id="casa01"></div>
+                <div class="casa" id="casa02"></div>
             </div>
             <div class="linha">
-                <div class="casa" id="casa4"></div>
-                <div class="casa" id="casa5"></div>
-                <div class="casa" id="casa6"></div>
+                <div class="casa" id="casa10"></div>
+                <div class="casa" id="casa11"></div>
+                <div class="casa" id="casa12"></div>
             </div>
             <div class="linha">
-                <div class="casa" id="casa7"></div>
-                <div class="casa" id="casa8"></div>
-                <div class="casa" id="casa9"></div>
+                <div class="casa" id="casa20"></div>
+                <div class="casa" id="casa21"></div>
+                <div class="casa" id="casa22"></div>
             </div>
         </div>
         <div id="iniciar">
             <button id="iniciarJogo">Iniciar Jogo</button>
         </div>
         <div id="informações">
+            <label>Codigo do Jogo</label>
             <input type="text" id="id" value=""/>
-            <select name="jogador">
+            <label>Jogador</label>
+            <select id="jogador">
                 <option value="X">X</option>
-                <option value="Y">Y</option>
+                <option value="O">O</option>
             </select>
-            <select name="positionX">
+            <label>Posição X</label>
+            <select id="positionX">
                 <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
             </select>
-            <select name="positionY">
+            <label>Posição Y</label>
+            <select id="positionY">
                 <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>

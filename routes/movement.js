@@ -72,6 +72,14 @@ function realizaJogada(arquivo, posicao, req, res) {
         //Define o proximo jogador que ira jogar
         arquivo.lastTurn = req.body.player;
 
+        //salva o vencedor da partida ou se houve empate
+        //variavel com o vencedor do jogo  || X,Y,Null ou empate
+        var vencedor = testaVencedor(arquivo);
+
+        if(vencedor != null){
+            arquivo.status = vencedor;
+        }
+
         //salva jogada em um arquivo txt
         resultado = fs.writeFile('./saves/temp' + arquivo.id + '.txt', JSON.stringify(arquivo), function (err) {
             if (err) {
@@ -80,14 +88,10 @@ function realizaJogada(arquivo, posicao, req, res) {
                 });
             }
             else {
-                //salva o vencedor da partida ou se houve empate
-                //variavel com o vencedor do jogo  || X,Y,Null ou empate
-                var vencedor = testaVencedor(arquivo);
-
                 //Condicao para avisar que houve um vencedor
                 //Caso contrario informa que a jogada foi realizada com sucesso
                 if (vencedor != null) {
-                    res.status(202).json({
+                    res.status(200).json({
                         message: 'Partida finalizada',
                         winner: vencedor
                     });

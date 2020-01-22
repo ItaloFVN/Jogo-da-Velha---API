@@ -30,7 +30,8 @@ router.post('/', (req, res, next) => {
             '20': null,
             '21': null,
             '22': null
-        }
+        },
+        status: null
     }
 
     //cria o arquivo/jogo e retorna true caso n�o tenha ocorrido nenhum erro

@@ -1,5 +1,15 @@
+turnoJogador = null;
+
 var criarJogo = document.querySelector("#iniciarJogo"),
-    jogada = document.querySelector("#realizarJogada");
+    casa = document.querySelectorAll(".casa");
+
+
+for (const jogada of casa) {
+    jogada.addEventListener('click', function () {
+        realizajogada(event.target);
+    })
+}
+    
 
 // cria o jogo
 criarJogo.addEventListener('click', function(){
@@ -19,19 +29,28 @@ criarJogo.addEventListener('click', function(){
 
 })
 
-jogada.addEventListener('click', function(){
+function carregaJogo(resultado){
+    var id = document.querySelector("#id"),
+        jogador = document.querySelector("#jogador");
+
+    id.value = resultado.id;
+    jogador.value = resultado.firstPlayer;
+    turnoJogador = resultado.firstPlayer;
+}
+
+//realiza jogada
+function realizajogada(casa){
+    console.log("chamou");
+    console.log(turnoJogador);
     var http = new XMLHttpRequest(),
         id = document.querySelector("#id"),
-        jogador = jogador = document.querySelector("#jogador"),
-        posicaoX = document.querySelector("#positionX"),
-        posicaoY = document.querySelector("#positionY"),
-        valorX = posicaoX.options[posicaoX.selectedIndex].value
-        valorY = posicaoY.options[posicaoY.selectedIndex].value
-
+        valorX = casa.getAttribute("positionx"),
+        valorY = casa.getAttribute("positiony");
+    
     var params = {
         "id": id.value,
-        "player": jogador.value,
-        "position":{
+        "player": turnoJogador,
+        "position": {
             "x": valorX,
             "y": valorY
         }
@@ -50,7 +69,7 @@ jogada.addEventListener('click', function(){
             carregaJogada(params);
         }
         //jogador errado
-        if (http.readyState == 4 && http.status == 201){
+        if (http.readyState == 4 && http.status == 201) {
             alerta(http.response);
         }
         //Jogo não encontrado
@@ -70,27 +89,22 @@ jogada.addEventListener('click', function(){
 
     }
     http.send(JSON.stringify(params));
-})
-
-function carregaJogo(resultado){
-    var id = document.querySelector("#id"),
-        jogador = document.querySelector("#jogador");
-    id.value = resultado.id;
-    if(resultado.firstPlayer == 'X'){
-        jogador.selectedIndex = 0;
-    }
-    else{
-        jogador.selectedIndex = 1;
-    }
 }
 
 function carregaJogada(params){
     console.log(params);
     var imagemFundo = document.querySelector("#casa" + params.position.x + params.position.y),
-        fig = "url(images/" + params.player  + ".jpg)";
-
-        console.log(fig);
+        fig = "url(images/" + params.player  + ".jpg)",
+        jogador = document.querySelector("#jogador");
         imagemFundo.style.background = fig;
+
+    if (params.player == "X") {
+        turnoJogador = "O"
+    } else {
+        turnoJogador = "X"
+    }
+
+    jogador.value = turnoJogador;
 }
 
 function terminaJogo(params){

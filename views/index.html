@@ -7,19 +7,19 @@
     <body>
         <div id="jogo">
             <div class="linha">
-                <div class="casa" id="casa00"></div>
-                <div class="casa" id="casa01"></div>
-                <div class="casa" id="casa02"></div>
+                <div class="casa" id="casa00" positionX="0" positionY="0"></div>
+                <div class="casa" id="casa01" positionX="0" positionY="1"></div>
+                <div class="casa" id="casa02" positionX="0" positionY="2"></div>
             </div>
             <div class="linha">
-                <div class="casa" id="casa10"></div>
-                <div class="casa" id="casa11"></div>
-                <div class="casa" id="casa12"></div>
+                <div class="casa" id="casa10" positionX="1" positionY="0"></div>
+                <div class="casa" id="casa11" positionX="1" positionY="1"></div>
+                <div class="casa" id="casa12" positionX="1" positionY="2"></div>
             </div>
             <div class="linha">
-                <div class="casa" id="casa20"></div>
-                <div class="casa" id="casa21"></div>
-                <div class="casa" id="casa22"></div>
+                <div class="casa" id="casa20" positionX="2" positionY="0"></div>
+                <div class="casa" id="casa21" positionX="2" positionY="1"></div>
+                <div class="casa" id="casa22" positionX="2" positionY="2"></div>
             </div>
         </div>
         <div id="iniciar">
@@ -29,23 +29,7 @@
             <label>Codigo do Jogo</label>
             <input type="text" id="id" value=""/>
             <label>Jogador</label>
-            <select id="jogador">
-                <option value="X">X</option>
-                <option value="O">O</option>
-            </select>
-            <label>Posição X</label>
-            <select id="positionX">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-            </select>
-            <label>Posição Y</label>
-            <select id="positionY">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-            </select>
-            <button id="realizarJogada">Jogar</button>
+            <input id="jogador" readonly/>
         </div>
         <div id="resultado"></div>
     <script type="text/javascript" src="javascripts/controller.js"></script>

@@ -1,5 +1,7 @@
 turnoJogador = null;
+app = angular.module('app', []);
 
+/*
 var criarJogo = document.querySelector("#iniciarJogo"),
     casa = document.querySelectorAll(".casa");
 
@@ -115,3 +117,4 @@ function terminaJogo(params){
 function alerta(params){
     alert(params.message);
 }
+*/

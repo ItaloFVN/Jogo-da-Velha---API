@@ -10,6 +10,7 @@
     "name": "Ítalo Nascimento"
   },
   "dependencies": {
+    "angular": "^1.7.9",
     "body-parser": "^1.15.0",
     "cookie-parser": "^1.4.0",
     "debug": "^2.2.0",

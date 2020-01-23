@@ -1,120 +1,98 @@
 turnoJogador = null;
 app = angular.module('app', []);
 
-/*
-var criarJogo = document.querySelector("#iniciarJogo"),
-    casa = document.querySelectorAll(".casa");
+app.controller('controller', function ($scope, $http) {
+    $scope.id = '';
+    $scope.jogador = "teste";
+    $scope.labelId = "Codigo do Jogo";
+    $scope.labelJogador = "Jogador";
+    $scope.resultado = '';
 
-
-for (const jogada of casa) {
-    jogada.addEventListener('click', function () {
-        realizajogada(event.target);
-    })
-}
-    
-
-// cria o jogo
-criarJogo.addEventListener('click', function(){
-    var http = new XMLHttpRequest();
-
-    http.open("POST", '/game');
-    http.setRequestHeader("Content-Type", "application/json");
-    http.responseType = 'json';
-    console.log('chamou');
-    http.onreadystatechange = function() {
-        if(http.readyState == 4 && http.status == 200){   
-            console.log(http.response);
-            carregaJogo(http.response);
-        }
+    $scope.criarJogo = function () {
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/game'
+        }).then(function successo(response) {
+            carregaJogo(response.data)
+        }, function erro(response) {
+            alert('Erro de conexão: Codigo ' + JSON.stringify(response.status));
+        });
     }
-    http.send();
 
+    $scope.realizaJogada = function ($event) {
+        var params = {
+            "id": $scope.id,
+            "player": $scope.jogador,
+            "position": {
+                "x": $event.target.attributes.positionX.value,
+                "y": $event.target.attributes.positionY.value
+            }
+        }
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/game/' + $scope.id + '/movement',
+            dataType: 'json',
+            data: params,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function successo(response) {
+            //Jogada realizada com sucesso
+            if (response.status == 200) {
+                carregaJogada(params, $event);
+            }
+            //jogador errado
+            if (response.status == 201) {
+                alerta(response.data);
+            }
+            //Jogo não encontrado
+            if (response.status == 404) {
+                alerta(response.data);
+            }
+            //posicao indisponivel
+            if (response.status == 203) {
+                alerta(response.data);
+            }
+            //jogo já encerrado
+            if (response.status == 202) {
+                alerta(response.data);
+                terminaJogo(response.data);
+            }
+            console.log(response.data);
+            
+        }, function erro(response) {
+            alert('Erro de conexão: Codigo ' + JSON.stringify(response.status));
+        });
+    }
+
+    function carregaJogo(resultado) {
+        $scope.id = resultado.id;
+        $scope.jogador = resultado.firstPlayer;
+        turnoJogador = resultado.firstPlayer;
+    }
+
+    function carregaJogada(params, event) {
+        var imagemFundo = angular.element(event.target),
+            fig = "url(images/" + params.player + ".jpg)";
+            
+            
+        imagemFundo.css({ 'background': fig});
+
+        if (params.player == "X") {
+            turnoJogador = "O"
+        } else {
+            turnoJogador = "X"
+        }
+
+        $scope.jogador = turnoJogador;
+    }
+
+    function terminaJogo(params) {
+        $scope.resultado = "<h1>O jogador " + params.winner + " venceu! </h1>";
+    }
+
+    function alerta(params) {
+        alert(params.message);
+    }
 })
 
-function carregaJogo(resultado){
-    var id = document.querySelector("#id"),
-        jogador = document.querySelector("#jogador");
-
-    id.value = resultado.id;
-    jogador.value = resultado.firstPlayer;
-    turnoJogador = resultado.firstPlayer;
-}
-
-//realiza jogada
-function realizajogada(casa){
-    console.log("chamou");
-    console.log(turnoJogador);
-    var http = new XMLHttpRequest(),
-        id = document.querySelector("#id"),
-        valorX = casa.getAttribute("positionx"),
-        valorY = casa.getAttribute("positiony");
-    
-    var params = {
-        "id": id.value,
-        "player": turnoJogador,
-        "position": {
-            "x": valorX,
-            "y": valorY
-        }
-    }
-
-    console.log(params);
-
-    http.open("POST", '/game/' + params.id + '/movement');
-    http.setRequestHeader("Content-Type", "application/json");
-    http.responseType = 'json';
-    console.log('chamou');
-    http.onreadystatechange = function () {
-        console.log(http.status);
-        //Jogada realizada com sucesso
-        if (http.readyState == 4 && http.status == 200) {
-            carregaJogada(params);
-            console.log(http.response);
-        }
-        //jogador errado
-        if (http.readyState == 4 && http.status == 201) {
-            alerta(http.response);
-        }
-        //Jogo não encontrado
-        if (http.readyState == 4 && http.status == 404) {
-            alerta(http.response);
-        }
-        //posicao indisponivel
-        if (http.readyState == 4 && http.status == 203) {
-            alerta(http.response);
-        }
-        //jogo já encerrado
-        if (http.readyState == 4 && http.status == 202) {
-            alerta(http.response);
-            terminaJogo(http.response);
-        }
-
-    }
-    http.send(JSON.stringify(params));
-}
-
-function carregaJogada(params){
-    console.log(params);
-    var imagemFundo = document.querySelector("#casa" + params.position.x + params.position.y),
-        fig = "url(images/" + params.player  + ".jpg)",
-        jogador = document.querySelector("#jogador");
-        imagemFundo.style.background = fig;
-
-    if (params.player == "X") {
-        turnoJogador = "O"
-    } else {
-        turnoJogador = "X"
-    }
-
-    jogador.value = turnoJogador;
-}
-
-function terminaJogo(params){
-    console.log("terminou");
-    document.querySelector("#resultado").innerHTML = "<h1>O jogador " + params.winner + " venceu! </h1>";
-}
-
-function alerta(params){
-    alert(params.message);
-}
-*/

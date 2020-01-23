@@ -1,37 +1,37 @@
 <!doctype html>
-<html> 
+<html ng-app="app"> 
     <head>
         <link rel="stylesheet" type="text/css" href="stylesheets/estilo.css" />
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     </head>
-    <body>
+    <body ng-controller="controller">
         <div id="jogo">
             <div class="linha">
-                <div class="casa" id="casa00" positionX="0" positionY="0"></div>
-                <div class="casa" id="casa01" positionX="0" positionY="1"></div>
-                <div class="casa" id="casa02" positionX="0" positionY="2"></div>
+                <div class="casa" positionX="0" positionY="0" ng-click="realizaJogada($event)"></div>
+                <div class="casa" positionX="0" positionY="1" ng-click="realizaJogada($event)"></div>
+                <div class="casa" positionX="0" positionY="2" ng-click="realizaJogada($event)"></div>
             </div>
             <div class="linha">
-                <div class="casa" id="casa10" positionX="1" positionY="0"></div>
-                <div class="casa" id="casa11" positionX="1" positionY="1"></div>
-                <div class="casa" id="casa12" positionX="1" positionY="2"></div>
+                <div class="casa" positionX="1" positionY="0" ng-click="realizaJogada($event)"></div>
+                <div class="casa" positionX="1" positionY="1" ng-click="realizaJogada($event)"></div>
+                <div class="casa" positionX="1" positionY="2" ng-click="realizaJogada($event)"></div>
             </div>
             <div class="linha">
-                <div class="casa" id="casa20" positionX="2" positionY="0"></div>
-                <div class="casa" id="casa21" positionX="2" positionY="1"></div>
-                <div class="casa" id="casa22" positionX="2" positionY="2"></div>
+                <div class="casa" positionX="2" positionY="0" ng-click="realizaJogada($event)"></div>
+                <div class="casa" positionX="2" positionY="1" ng-click="realizaJogada($event)"></div>
+                <div class="casa" positionX="2" positionY="2" ng-click="realizaJogada($event)"></div>
             </div>
         </div>
-        <div id="iniciar">
-            <button id="iniciarJogo">Iniciar Jogo</button>
+        <div>
+            <button ng-click="criarJogo()">Iniciar Jogo</button>
         </div>
-        <div id="informações">
-            <label>Codigo do Jogo</label>
-            <input type="text" id="id" value=""/>
-            <label>Jogador</label>
-            <input id="jogador" readonly/>
+        <div>
+            <label>{{labelId}}</label>
+            <input type="text" ng-model='id'/>
+            <label>{{labelJogador}}</label>
+            <input readonly ng-model="jogador"/>
         </div>
-        <div id="resultado"></div>
+        <div>{{resultado}}</div>
         
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
     <script type="text/javascript" src="javascripts/controller.js"></script>

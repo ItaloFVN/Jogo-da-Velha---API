@@ -68,9 +68,6 @@ function realizajogada(casa){
         if (http.readyState == 4 && http.status == 200) {
             carregaJogada(params);
             console.log(http.response);
-            if(http.response.winner != null){
-                terminaJogo(http.response);
-            }
         }
         //jogador errado
         if (http.readyState == 4 && http.status == 201) {
@@ -83,6 +80,11 @@ function realizajogada(casa){
         //posicao indisponivel
         if (http.readyState == 4 && http.status == 203) {
             alerta(http.response);
+        }
+        //jogo já encerrado
+        if (http.readyState == 4 && http.status == 202) {
+            alerta(http.response);
+            terminaJogo(http.response);
         }
 
     }
@@ -108,11 +110,6 @@ function carregaJogada(params){
 function terminaJogo(params){
     console.log("terminou");
     document.querySelector("#resultado").innerHTML = "<h1>O jogador " + params.winner + " venceu! </h1>";
-    for (const jogada of casa) {
-        jogada.removeEventListener('click', function(){
-            realizajogada();
-        });
-    }
 }
 
 function alerta(params){

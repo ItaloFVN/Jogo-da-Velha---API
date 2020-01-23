@@ -15,19 +15,26 @@ router.post('/', (req, res, next) => {
             });
         }
         else {
-            
-            
             //objeto JSON do arquivo obtido
+            console.log(data);
             var arquivo = JSON.parse(data);
-            
-            //teste para verificar o jogador do turno atual
-            if (verificaJogador(arquivo, req, res) != false) {
+            //console.log(arquivo);
+            if(arquivo.status == null){
+                //teste para verificar o jogador do turno atual
+                if (verificaJogador(arquivo, req, res) != false) {
 
-                //variavel que salva a posicao obtida na requisicao
-                var posicao = '' + req.body.position.x + req.body.position.y;
+                    //variavel que salva a posicao obtida na requisicao
+                    var posicao = '' + req.body.position.x + req.body.position.y;
 
-                //realiza a jogada e a salva 
-                realizaJogada(arquivo, posicao, req, res);
+                    //realiza a jogada e a salva 
+                    realizaJogada(arquivo, posicao, req, res);
+                }
+            }
+            else{
+                res.status(202).json({
+                    winner: arquivo.status,
+                    message: 'Jogo já encerrado!'
+                });
             }
         }
     }); 
@@ -75,10 +82,8 @@ function realizaJogada(arquivo, posicao, req, res) {
         //salva o vencedor da partida ou se houve empate
         //variavel com o vencedor do jogo  || X,Y,Null ou empate
         var vencedor = testaVencedor(arquivo);
-
-        if(vencedor != null){
-            arquivo.status = vencedor;
-        }
+        arquivo.status = vencedor;
+        
 
         //salva jogada em um arquivo txt
         resultado = fs.writeFile('./saves/temp' + arquivo.id + '.txt', JSON.stringify(arquivo), function (err) {
@@ -96,7 +101,7 @@ function realizaJogada(arquivo, posicao, req, res) {
                         winner: vencedor
                     });
                 }
-                 else {
+                else {
                     res.status(200).json({
                         codigo: '200'
                     });
@@ -110,6 +115,7 @@ function realizaJogada(arquivo, posicao, req, res) {
         });
     }
 }
+
 
 //Metodo que define se alguem ganhou a partida
 //Arquivo -> Objeto JSON da leitura do arquivo txt

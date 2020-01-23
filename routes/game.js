@@ -29,7 +29,7 @@ router.post('/', (req, res, next) => {
             '12': null,
             '20': null,
             '21': null,
-            '22': null
+            '22': null,
         },
         status: null
     }
@@ -61,7 +61,6 @@ function defineFirstPlayer(randomized) {
 //Metodo que cria um arquivo txt com os dados do jogo
 //TXT -> Objeto JSON que sera inserido em um arquivo txt
 function criarJogo(txt) {
-   
     fs.writeFile('./saves/temp' + txt.id + '.txt', JSON.stringify(txt), function (err) {
         if (err) {
             res.status(200).json({

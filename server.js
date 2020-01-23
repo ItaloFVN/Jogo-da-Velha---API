@@ -8,4 +8,6 @@ const port = process.env.PORT || 8080;
 const server = http.createServer(app);
 
 //reage �s chamadas para o servidor
-server.listen(port);
+server.listen(port, function(){
+    console.log('Chamou a porta');
+});

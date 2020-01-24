@@ -1,19 +1,51 @@
 turnoJogador = null;
 app = angular.module('app', []);
+/*arquivo = {
+    id: null,
+    firstPlayer: null,
+    lastTurn: null,
+    positions: {
+        '00': null,
+        '01': null,
+        '02': null,
+        '10': null,
+        '11': null,
+        '12': null,
+        '20': null,
+        '21': null,
+        '22': null,
+    },
+    status: null
+}*/
 
-app.controller('controller', function ($scope, $http) {
+app.controller('controller', function ($scope, $http, $document) {
     $scope.id = '';
     $scope.jogador = "teste";
     $scope.labelId = "Codigo do Jogo";
     $scope.labelJogador = "Jogador";
     $scope.resultado = '';
-
+    $scope.linha0 = [
+        { class:"casa", positionX:"0", positionY:"0", evento:"realizaJogada($event)"},
+        { class: "casa", positionX: "0", positionY: "1", evento: "realizaJogada($event)" },
+        { class: "casa", positionX: "0", positionY: "2", evento: "realizaJogada($event)" }
+    ]
+    $scope.linha1 = [
+        { class: "casa", positionX: "1", positionY: "0", evento: "realizaJogada($event)" },
+        { class: "casa", positionX: "1", positionY: "1", evento: "realizaJogada($event)" },
+        { class: "casa", positionX: "1", positionY: "2", evento: "realizaJogada($event)" }
+    ]
+    $scope.linha2 = [
+        { class: "casa", positionX: "2", positionY: "0", evento: "realizaJogada($event)" },
+        { class: "casa", positionX: "2", positionY: "1", evento: "realizaJogada($event)" },
+        { class: "casa", positionX: "2", positionY: "2", evento: "realizaJogada($event)" }
+    ]
+    
     $scope.criarJogo = function () {
         $http({
             method: 'POST',
             url: 'http://localhost:8080/game'
         }).then(function successo(response) {
-            carregaJogo(response.data)
+            carregaJogo(response.data);
         }, function erro(response) {
             alert('Erro de conexão: Codigo ' + JSON.stringify(response.status));
         });
@@ -39,7 +71,12 @@ app.controller('controller', function ($scope, $http) {
         }).then(function successo(response) {
             //Jogada realizada com sucesso
             if (response.status == 200) {
+                //atualizaJson(params);
+                console.log(response.data.winner);
                 carregaJogada(params, $event);
+                if (response.data.winner == 'X' || response.data.winner == 'O'){
+                    terminaJogo(response.data)
+                }
             }
             //jogador errado
             if (response.status == 201) {
@@ -58,7 +95,7 @@ app.controller('controller', function ($scope, $http) {
                 alerta(response.data);
                 terminaJogo(response.data);
             }
-            console.log(response.data);
+            //console.log(response.data);
             
         }, function erro(response) {
             alert('Erro de conexão: Codigo ' + JSON.stringify(response.status));
@@ -88,11 +125,30 @@ app.controller('controller', function ($scope, $http) {
     }
 
     function terminaJogo(params) {
-        $scope.resultado = "<h1>O jogador " + params.winner + " venceu! </h1>";
+        //console.log(params);
+        $scope.resultado = "O jogador " + params.winner + " venceu!";
     }
 
     function alerta(params) {
         alert(params.message);
     }
+
+    $scope.zeraJogo = function(){
+        var casas = document.querySelectorAll(".casa");
+        console.log(casas);
+        for (const casa of casas) {
+            casa.style.background = '';
+        }
+        $scope.resultado = "";
+    }
+/*
+    function atualizaJSON(params){
+
+        arquivo.lastTurn = params.player;
+        var posicao = '' + params.x + params.y;
+        arquivo.positions[posicao] = params.player;
+
+    }*/
+
 })
 

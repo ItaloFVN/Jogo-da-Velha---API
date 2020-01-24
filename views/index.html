@@ -6,24 +6,24 @@
     </head>
     <body ng-controller="controller">
         <div id="jogo">
+            <div class="linha" >
+                <div class="casa" positionX="{{local.positionX}}" positionY="{{local.positionY}}"
+                    ng-click="realizaJogada($event)" ng-repeat='local in linha0'>
+                </div>
+            </div>      
             <div class="linha">
-                <div class="casa" positionX="0" positionY="0" ng-click="realizaJogada($event)"></div>
-                <div class="casa" positionX="0" positionY="1" ng-click="realizaJogada($event)"></div>
-                <div class="casa" positionX="0" positionY="2" ng-click="realizaJogada($event)"></div>
+                <div class="casa" positionX="{{local.positionX}}" positionY="{{local.positionY}}"
+                    ng-click="realizaJogada($event)" ng-repeat='local in linha1'>
+                </div>
             </div>
             <div class="linha">
-                <div class="casa" positionX="1" positionY="0" ng-click="realizaJogada($event)"></div>
-                <div class="casa" positionX="1" positionY="1" ng-click="realizaJogada($event)"></div>
-                <div class="casa" positionX="1" positionY="2" ng-click="realizaJogada($event)"></div>
-            </div>
-            <div class="linha">
-                <div class="casa" positionX="2" positionY="0" ng-click="realizaJogada($event)"></div>
-                <div class="casa" positionX="2" positionY="1" ng-click="realizaJogada($event)"></div>
-                <div class="casa" positionX="2" positionY="2" ng-click="realizaJogada($event)"></div>
+                <div class="casa" positionX="{{local.positionX}}" positionY="{{local.positionY}}"
+                    ng-click="realizaJogada($event)" ng-repeat='local in linha2'>
+                </div>
             </div>
         </div>
         <div>
-            <button ng-click="criarJogo()">Iniciar Jogo</button>
+            <button ng-click="criarJogo(); zeraJogo()">Iniciar Jogo</button>
         </div>
         <div>
             <label>{{labelId}}</label>
@@ -31,7 +31,9 @@
             <label>{{labelJogador}}</label>
             <input readonly ng-model="jogador"/>
         </div>
-        <div>{{resultado}}</div>
+        <div>
+            <h1>{{resultado}}</h1>
+        </div>
         
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
     <script type="text/javascript" src="javascripts/controller.js"></script>

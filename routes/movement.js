@@ -16,7 +16,7 @@ router.post('/', (req, res, next) => {
         }
         else {
             //objeto JSON do arquivo obtido
-            console.log(data);
+            //console.log(data);
             var arquivo = JSON.parse(data);
             //console.log(arquivo);
             if(arquivo.status == null){
@@ -82,6 +82,7 @@ function realizaJogada(arquivo, posicao, req, res) {
         //salva o vencedor da partida ou se houve empate
         //variavel com o vencedor do jogo  || X,Y,Null ou empate
         var vencedor = testaVencedor(arquivo);
+        console.log(vencedor);
         arquivo.status = vencedor;
         
 
@@ -98,7 +99,7 @@ function realizaJogada(arquivo, posicao, req, res) {
                 if (vencedor != null) {
                     res.status(200).json({
                         message: 'Partida finalizada',
-                        winner: vencedor
+                        winner: vencedor 
                     });
                 }
                 else {

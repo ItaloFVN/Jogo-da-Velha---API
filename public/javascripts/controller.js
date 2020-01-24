@@ -20,7 +20,7 @@ app = angular.module('app', []);
 
 app.controller('controller', function ($scope, $http, $document) {
     $scope.id = '';
-    $scope.jogador = "teste";
+    $scope.jogador = "";
     $scope.labelId = "Codigo do Jogo";
     $scope.labelJogador = "Jogador";
     $scope.resultado = '';
@@ -52,51 +52,73 @@ app.controller('controller', function ($scope, $http, $document) {
     }
 
     $scope.realizaJogada = function ($event) {
-        var params = {
-            "id": $scope.id,
-            "player": $scope.jogador,
-            "position": {
-                "x": $event.target.attributes.positionX.value,
-                "y": $event.target.attributes.positionY.value
+        if ($scope.id != '') {
+            var params = {
+                "id": $scope.id,
+                "player": $scope.jogador,
+                "position": {
+                    "x": $event.target.attributes.positionX.value,
+                    "y": $event.target.attributes.positionY.value
+                }
             }
+            $http({
+                method: 'POST',
+                url: 'http://localhost:8080/game/' + $scope.id + '/movement',
+                dataType: 'json',
+                data: params,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(function successo(response) {
+                //Jogada realizada com sucesso
+                if (response.status == 200) {
+                    //atualizaJson(params);
+                    console.log(response.data.winner);
+                    carregaJogada(params, $event);
+                    if (response.data.winner == 'X' || response.data.winner == 'O'){
+                        terminaJogo(response.data)
+                    }
+                }
+                //jogador errado
+                if (response.status == 201) {
+                    alerta(response.data);
+                }
+                //Jogo não encontrado
+                if (response.status == 404) {
+                    alerta(response.data);
+                }
+                //posicao indisponivel
+                if (response.status == 203) {
+                    alerta(response.data);
+                }
+                //jogo já encerrado
+                if (response.status == 202) {
+                    alerta(response.data);
+                    terminaJogo(response.data);
+                }
+                //console.log(response.data);
+                
+            }, function erro(response) {
+                alert('Erro de conexão: Codigo ' + JSON.stringify(response.status));
+            });
         }
+        else{
+            alert("Codigo de jogo não inserido!");
+        }
+    }
+
+    $scope.recebeArquivo = function () {
         $http({
             method: 'POST',
-            url: 'http://localhost:8080/game/' + $scope.id + '/movement',
+            url: 'http://localhost:8080/load',
             dataType: 'json',
-            data: params,
+            data: {id : $scope.id},
             headers: {
                 "Content-Type": "application/json"
             }
         }).then(function successo(response) {
-            //Jogada realizada com sucesso
-            if (response.status == 200) {
-                //atualizaJson(params);
-                console.log(response.data.winner);
-                carregaJogada(params, $event);
-                if (response.data.winner == 'X' || response.data.winner == 'O'){
-                    terminaJogo(response.data)
-                }
-            }
-            //jogador errado
-            if (response.status == 201) {
-                alerta(response.data);
-            }
-            //Jogo não encontrado
-            if (response.status == 404) {
-                alerta(response.data);
-            }
-            //posicao indisponivel
-            if (response.status == 203) {
-                alerta(response.data);
-            }
-            //jogo já encerrado
-            if (response.status == 202) {
-                alerta(response.data);
-                terminaJogo(response.data);
-            }
-            //console.log(response.data);
-            
+            console.log(response.data);
+            carregaArquivo(response.data);
         }, function erro(response) {
             alert('Erro de conexão: Codigo ' + JSON.stringify(response.status));
         });
@@ -133,6 +155,34 @@ app.controller('controller', function ($scope, $http, $document) {
         alert(params.message);
     }
 
+    function carregaArquivo(params){
+        var casas = document.querySelectorAll(".casa"),
+            posicoes = [];
+            
+        for (var posicao in params.positions)
+            posicoes.push([posicao, params.positions[posicao]]);
+            posicoes.sort();
+        for (let index = 0; index < casas.length; index++) {
+            if (posicoes[index][1] == 'X')
+                casas[index].style.background = "url(images/X.jpg)";
+            else if (posicoes[index][1] == 'O')
+                casas[index].style.background = "url(images/O.jpg)";
+            else
+                casas[index].style.background = '';
+        }
+        if(params.status == 'X' || params.status == 'O'){
+            $scope.jogador = "";
+            $scope.resultado = "O jogador " + params.status + " venceu!";
+        } else if (params.status == "Empate"){
+            $scope.resultado = "Empate!";
+        }else{
+            $scope.resultado = "";
+            if(params.lastTurn == 'X')
+                $scope.jogador = 'O';
+            else
+                $scope.jogador = 'X';
+        }
+    }
     $scope.zeraJogo = function(){
         var casas = document.querySelectorAll(".casa");
         console.log(casas);

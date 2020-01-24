@@ -6,12 +6,12 @@ const bodyParser = require('body-parser');
 //constante para as rotas aos arquivos | game.js && movement.js
 const gameRoutes = require('./routes/game.js');
 const movementRoutes = require('./routes/movement.js');
+const loadRoutes = require('./routes/load.js');
+
+//const loadRoutes = require('./routes/load.js');
 
 // permite trabalhar com requisi��es no formato JSON corretamente
 app.use(bodyParser.json());
-
-
-
 
 //CORS do projeto
 app.use((req, res, next) => {
@@ -27,11 +27,16 @@ app.use((req, res, next) => {
     next();
 });
 
+// rota para as chamadas '/load'
+app.use('/load', loadRoutes);
+
 // rota para as chamadas '/game'
 app.use('/game', gameRoutes);
 
 //rota para as chamadas '/game/{id}/movement'
 app.use('/game/*/movement', movementRoutes); 
+
+
 
 //chamada do index
 app.use(express.static(__dirname + '/public'));

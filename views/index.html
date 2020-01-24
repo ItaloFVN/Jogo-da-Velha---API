@@ -1,41 +1,62 @@
 <!doctype html>
-<html ng-app="app"> 
+<html lang="en" ng-app="app"> 
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="stylesheets/estilo.css" />
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     </head>
     <body ng-controller="controller">
-        <div id="jogo">
-            <div class="linha" >
-                <div class="casa" positionX="{{local.positionX}}" positionY="{{local.positionY}}"
-                    ng-click="realizaJogada($event)" ng-repeat='local in linha0'>
+        <section class="conteudo">
+            <div id="jogo">
+                <div class="linha" >
+                    <div class="{{local.class}}" positionX="{{local.positionX}}" positionY="{{local.positionY}}"
+                        ng-click="realizaJogada($event)" ng-repeat='local in linha0'>
+                    </div>
+                </div>      
+                <div class="linha">
+                    <div class="{{local.class}}" positionX="{{local.positionX}}" positionY="{{local.positionY}}"
+                        ng-click="realizaJogada($event)" ng-repeat='local in linha1'>
+                    </div>
                 </div>
-            </div>      
-            <div class="linha">
-                <div class="casa" positionX="{{local.positionX}}" positionY="{{local.positionY}}"
-                    ng-click="realizaJogada($event)" ng-repeat='local in linha1'>
+                <div class="linha">
+                    <div  class="{{local.class}}" positionX="{{local.positionX}}" positionY="{{local.positionY}}"
+                        ng-click="realizaJogada($event)" ng-repeat='local in linha2'>
+                    </div>
                 </div>
             </div>
-            <div class="linha">
-                <div class="casa" positionX="{{local.positionX}}" positionY="{{local.positionY}}"
-                    ng-click="realizaJogada($event)" ng-repeat='local in linha2'>
+            <div class="informacoes">
+                <div>
+                    <button ng-click="criarJogo(); zeraJogo()">Iniciar Jogo</button>
+                    <button ng-click="alteraModal()">Carregar Jogo</button>
+                </div>
+                <label>{{labelId}}</label>
+                <input type="text" ng-model='id'/>
+                <label>{{labelJogador}}</label>
+                <input readonly ng-model="jogador"/>
+            </div>
+            <div ng-if="exibirResultado">
+                <h1>{{resultado}}</h1>
+            </div>
+        </section>
+        <section ng-if="mostraModal()" ng-init="buscaCodigoJogos()">
+            <div id="jogosModal">
+                <div id="jogos">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Jogo {{modalJogos}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="jogo in jogos">
+                                <td ng-click='recebeArquivo()'>{{jogo}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-        <div>
-            <button ng-click="criarJogo(); zeraJogo()">Iniciar Jogo</button>
-            <button ng-click="recebeArquivo()">Carregar Jogo</button>
-        </div>
-        <div>
-            <label>{{labelId}}</label>
-            <input type="text" ng-model='id'/>
-            <label>{{labelJogador}}</label>
-            <input readonly ng-model="jogador"/>
-        </div>
-        <div>
-            <h1>{{resultado}}</h1>
-        </div>
-        
+        </section>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
     <script type="text/javascript" src="javascripts/controller.js"></script>
     </body>

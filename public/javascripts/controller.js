@@ -1,24 +1,10 @@
-turnoJogador = null;
-app = angular.module('app', []);
-/*arquivo = {
-    id: null,
-    firstPlayer: null,
-    lastTurn: null,
-    positions: {
-        '00': null,
-        '01': null,
-        '02': null,
-        '10': null,
-        '11': null,
-        '12': null,
-        '20': null,
-        '21': null,
-        '22': null,
-    },
-    status: null
-}*/
+var turnoJogador = null,
+    app = angular.module('app', []);
 
 app.controller('controller', function ($scope, $http, $document) {
+    $scope.modalJogos = false;
+    $scope.jogos = [];
+    $scope.statusJogo = false;
     $scope.id = '';
     $scope.jogador = "";
     $scope.labelId = "Codigo do Jogo";
@@ -75,7 +61,9 @@ app.controller('controller', function ($scope, $http, $document) {
                     //atualizaJson(params);
                     console.log(response.data.winner);
                     carregaJogada(params, $event);
-                    if (response.data.winner == 'X' || response.data.winner == 'O'){
+                    if (response.data.winner == 'X' || 
+                        response.data.winner == 'O' ||
+                        response.data.winner == "Empate"){
                         terminaJogo(response.data)
                     }
                 }
@@ -107,6 +95,18 @@ app.controller('controller', function ($scope, $http, $document) {
         }
     }
 
+    $scope.alteraModal = function () {
+        if ($scope.modalJogos == true) {
+            $scope.modalJogos = false
+        } else {
+            $scope.modalJogos = true
+        }
+    }
+
+    $scope.mostraModal = function(){
+        return $scope.modalJogos;
+    }
+
     $scope.recebeArquivo = function () {
         $http({
             method: 'POST',
@@ -119,6 +119,31 @@ app.controller('controller', function ($scope, $http, $document) {
         }).then(function successo(response) {
             console.log(response.data);
             carregaArquivo(response.data);
+        }, function erro(response) {
+            alert('Erro de conexão: Codigo ' + JSON.stringify(response.status));
+        });
+    }
+
+    $scope.exibirResultado = function () {
+        return $scope.statusJogo;
+    }
+
+    $scope.zeraJogo = function () {
+        var casas = document.querySelectorAll(".casa");
+        console.log(casas);
+        for (const casa of casas) {
+            casa.style.background = '';
+        }
+        $scope.resultado = "";
+    }
+
+    $scope.buscaCodigoJogos = function() {
+        $http({
+            method: 'POST',
+            url: 'http://localhost:8080/',
+        }).then(function successo(response) {
+            $scope.jogos = response.data;
+            console.log(response.data);
         }, function erro(response) {
             alert('Erro de conexão: Codigo ' + JSON.stringify(response.status));
         });
@@ -148,7 +173,11 @@ app.controller('controller', function ($scope, $http, $document) {
 
     function terminaJogo(params) {
         //console.log(params);
-        $scope.resultado = "O jogador " + params.winner + " venceu!";
+        $scope.statusJogo = true;
+        if (params.winner == "Empate")
+            $scope.resultado = params.winner
+        else
+            $scope.resultado = "O jogador " + params.winner + " venceu!";
     }
 
     function alerta(params) {
@@ -171,11 +200,14 @@ app.controller('controller', function ($scope, $http, $document) {
                 casas[index].style.background = '';
         }
         if(params.status == 'X' || params.status == 'O'){
+            $scope.statusJogo = true;
             $scope.jogador = "";
             $scope.resultado = "O jogador " + params.status + " venceu!";
         } else if (params.status == "Empate"){
+            $scope.statusJogo = true;
             $scope.resultado = "Empate!";
         }else{
+            $scope.statusJogo = false;
             $scope.resultado = "";
             if(params.lastTurn == 'X')
                 $scope.jogador = 'O';
@@ -183,22 +215,5 @@ app.controller('controller', function ($scope, $http, $document) {
                 $scope.jogador = 'X';
         }
     }
-    $scope.zeraJogo = function(){
-        var casas = document.querySelectorAll(".casa");
-        console.log(casas);
-        for (const casa of casas) {
-            casa.style.background = '';
-        }
-        $scope.resultado = "";
-    }
-/*
-    function atualizaJSON(params){
-
-        arquivo.lastTurn = params.player;
-        var posicao = '' + params.x + params.y;
-        arquivo.positions[posicao] = params.player;
-
-    }*/
-
 })
 

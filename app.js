@@ -1,12 +1,14 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const glob = require('glob');
 
 
 //constante para as rotas aos arquivos | game.js && movement.js
 const gameRoutes = require('./routes/game.js');
 const movementRoutes = require('./routes/movement.js');
 const loadRoutes = require('./routes/load.js');
+const loadDirRoutes = require('./routes/loadDir.js');
 
 //const loadRoutes = require('./routes/load.js');
 
@@ -36,15 +38,21 @@ app.use('/game', gameRoutes);
 //rota para as chamadas '/game/{id}/movement'
 app.use('/game/*/movement', movementRoutes); 
 
+//rota para as chamadas '/'
+app.use('/', loadDirRoutes);
+
 
 
 //chamada do index
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
 
-app.get('/', (req, res) => {
-    res.sendFile('index.html')
-})
+/*app.use('/', (req, res) => {
+    glob(__dirname + '/saves/*.txt', {}, (err, files) => {
+        console.log(files)
+        res.(files);
+    })
+})*/
 
 module.exports = app;
 

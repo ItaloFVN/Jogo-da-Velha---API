@@ -1,14 +1,14 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const glob = require('glob');
+global.jogos = [];
 
 
 //constante para as rotas aos arquivos | game.js && movement.js
 const gameRoutes = require('./routes/game.js');
 const movementRoutes = require('./routes/movement.js');
 const loadRoutes = require('./routes/load.js');
-const loadDirRoutes = require('./routes/loadDir.js');
+const loadJogosRoutes = require('./routes/loadJogos.js');
 
 //const loadRoutes = require('./routes/load.js');
 
@@ -39,7 +39,7 @@ app.use('/game', gameRoutes);
 app.use('/game/*/movement', movementRoutes); 
 
 //rota para as chamadas '/'
-app.use('/', loadDirRoutes);
+app.use('/', loadJogosRoutes);
 
 
 

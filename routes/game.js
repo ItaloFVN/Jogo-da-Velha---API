@@ -3,7 +3,8 @@ const router = express.Router();
 const fs = require('fs');
 
 
-router.post('/', (req, res, next) => {
+
+router.post('/',(req, res, next) => {
     // Cria um Id aleatorio
     var id = Math.random().toString(36).substr(2, 9);
     
@@ -15,8 +16,8 @@ router.post('/', (req, res, next) => {
     //de ramdomized por 2
     var primeiroJogador = defineFirstPlayer(randomized);
     
-    //Objeto JSON txt que ira ser escrito em um arquivo txt
-    var txt = {
+    //Esqueleto do JSON que ira ser passado para a variavel global {jogos}
+    var jogo = {
         id: id,
         firstPlayer: primeiroJogador,
         lastTurn: null,
@@ -35,11 +36,10 @@ router.post('/', (req, res, next) => {
     }
 
     //cria o arquivo/jogo e retorna true caso n�o tenha ocorrido nenhum erro
-    if (criarJogo(txt) == true) {
-       
+    if (criarJogo(jogo) == true) {
         res.status(200).json({
-            id: txt.id,
-            firstPlayer: txt.firstPlayer
+            id: jogo.id,
+            firstPlayer: jogo.firstPlayer
         });
     };   
 });
@@ -58,18 +58,18 @@ function defineFirstPlayer(randomized) {
     return retorno;
 }
 
-//Metodo que cria um arquivo txt com os dados do jogo
-//TXT -> Objeto JSON que sera inserido em um arquivo txt
-function criarJogo(txt) {
-    fs.writeFile('./saves/temp' + txt.id + '.txt', JSON.stringify(txt), function (err) {
-        if (err) {
-            res.status(200).json({
-                message: 'Partida n�o encontrada'
-            });
-            return false;
-        }
-    });
+//Metodo que insere um JSON na variavel global {jogos}
+//TXT -> Objeto JSON que sera inserido em {jogos}
+function criarJogo(jogo) {
+    var tamanho = global.jogos.length;
+    if (tamanho == global.jogos.push(txt)) {
+        res.status(200).json({
+            message: 'Não foi possivel criar a partida!'
+        });
+    }
+    else{
         return true;
+    }
 }
 
 module.exports = router;

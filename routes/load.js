@@ -1,23 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
 
 router.post('/', (req, res, next) => {
-
-    fs.readFile('./saves/temp' + req.body.id + '.txt', 'utf8', function (err, data) {
-        //verifica se existe uma partida/jogo/arquivo com o ID disponibilizado
-        if (err) {
-            res.status(404).json({
-                message: 'Partida n�o encontrada'
-            });
-        }
-        else {
-            //objeto JSON do arquivo obtido
-            var arquivo = JSON.parse(data);
-            res.status(200).json(arquivo);
+    var condicao = false;
+    for (const jogo of global.jogos) {
+        if (jogo.id == req.body.id) {
+            condicao = true;
+            res.status(200).json(jogo);
             console.log(arquivo);
         }
-    }); 
+    }
+    if(condicao == false){
+        res.status(404).json({
+            message: 'Partida n�o encontrada'
+        });
+    }
 });
 
 module.exports = router;

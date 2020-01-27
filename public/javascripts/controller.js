@@ -94,7 +94,7 @@ app.controller('controller', function ($scope, $http, $document) {
             alert("Codigo de jogo não inserido!");
         }
     }
-
+    //Hide or show
     $scope.alteraModal = function () {
         if ($scope.modalJogos == true) {
             $scope.modalJogos = false
@@ -103,10 +103,12 @@ app.controller('controller', function ($scope, $http, $document) {
         }
     }
 
+    //retorna o valor da modal
     $scope.mostraModal = function(){
         return $scope.modalJogos;
     }
 
+    //busca um jogo pelo id
     $scope.recebeArquivo = function () {
         $http({
             method: 'POST',
@@ -124,10 +126,12 @@ app.controller('controller', function ($scope, $http, $document) {
         });
     }
 
+    //Resultado do jogo
     $scope.exibirResultado = function () {
         return $scope.statusJogo;
     }
 
+    //Zera as casas ao iniciar/carregar jogo
     $scope.zeraJogo = function () {
         var casas = document.querySelectorAll(".casa");
         console.log(casas);
@@ -137,7 +141,8 @@ app.controller('controller', function ($scope, $http, $document) {
         $scope.resultado = "";
     }
 
-    $scope.buscaCodigoJogos = function() {
+    //Busca os jogos na memoria
+    $scope.buscaJogos = function() {
         $http({
             method: 'POST',
             url: 'http://localhost:8080/',
@@ -149,12 +154,14 @@ app.controller('controller', function ($scope, $http, $document) {
         });
     }
 
+    //Exibe o Id/Jogador do jogo atual
     function carregaJogo(resultado) {
         $scope.id = resultado.id;
         $scope.jogador = resultado.firstPlayer;
         turnoJogador = resultado.firstPlayer;
     }
 
+    //Altera o fundo da casa
     function carregaJogada(params, event) {
         var imagemFundo = angular.element(event.target),
             fig = "url(images/" + params.player + ".jpg)";
@@ -171,6 +178,7 @@ app.controller('controller', function ($scope, $http, $document) {
         $scope.jogador = turnoJogador;
     }
 
+    //Encerra o jogo de acordo com o winner
     function terminaJogo(params) {
         //console.log(params);
         $scope.statusJogo = true;
@@ -180,10 +188,12 @@ app.controller('controller', function ($scope, $http, $document) {
             $scope.resultado = "O jogador " + params.winner + " venceu!";
     }
 
+    //Alert para erros
     function alerta(params) {
         alert(params.message);
     }
 
+    //Altera as casas para um jogo carregado
     function carregaArquivo(params){
         var casas = document.querySelectorAll(".casa"),
             posicoes = [];

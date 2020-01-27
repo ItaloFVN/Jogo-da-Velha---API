@@ -1,1 +1,0 @@
-{"id":"x05iaqeaw","firstPlayer":"O","lastTurn":"O","positions":{"10":"O","11":"X","12":"X","20":"O","21":"X","22":null,"00":"O","01":"O","02":null},"status":"O"}

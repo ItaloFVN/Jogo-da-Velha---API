@@ -42,14 +42,12 @@ router.post('/', (req, res, next) => {
 //res -> resposta
 function verificaJogador(jogo, req, res){
     if (jogo.lastTurn == null && jogo.firstPlayer != req.body.player) {
-        console.log(req.body.player);
         res.status(201).json({
             message: 'N�o � turno do jogador'
         });
         return false
     }
     else if (jogo.lastTurn == req.body.player) {
-        console.log(req.body.player);
         res.status(201).json({
             message: 'N�o � turno do jogador'
         });
@@ -78,7 +76,6 @@ function realizaJogada(jogo, posicao, req, res) {
         //salva o vencedor da partida ou se houve empate
         //variavel com o vencedor do jogo  || X,Y,Null ou empate
         var vencedor = testaVencedor(jogo);
-        console.log(vencedor);
         jogo.status = vencedor;
         
 

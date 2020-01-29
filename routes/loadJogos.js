@@ -3,11 +3,13 @@ const router = express.Router();
 const glob = require('glob');
 
 router.post('/', (req, res, next) => {
-    glob('C:/Users/Dell/Desktop/Jogo_da_velha/Jogo-da-Velha---API/saves/*.txt', {}, 
-        (err, files) => {
-            console.log(files);
-            res.send(files);
-    })
+    var ids = [];
+    for (const jogo of global.jogos) {
+        ids.push(jogo.id);
+    }
+    res.status(200).json({
+        jogos: ids
+    });
 });
 
 module.exports = router;

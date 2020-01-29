@@ -29,6 +29,7 @@
                 <div>
                     <button ng-click="criarJogo(); zeraJogo()">Iniciar Jogo</button>
                     <button ng-click="recebeArquivo()">Carregar Jogo</button>
+                    <button ng-click="buscaJogos(); alteraModal()">Jogos</button>
                 </div>
                 <label>{{labelId}}</label>
                 <input type="text" ng-model='id'/>
@@ -45,12 +46,12 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Jogo {{modalJogos}}</th>
+                                <th>Jogos</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="jogo in jogos">
-                                <td ng-click='recebeArquivo()'>{{jogo}}</td>
+                                <td ng-click='recebeArquivo($event)'>{{jogo}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -59,15 +59,16 @@ function defineFirstPlayer(randomized) {
 }
 
 //Metodo que insere um JSON na variavel global {jogos}
-//TXT -> Objeto JSON que sera inserido em {jogos}
+//Jogos -> Objeto JSON que sera inserido em {jogos}
 function criarJogo(jogo) {
     var tamanho = global.jogos.length;
-    if (tamanho == global.jogos.push(txt)) {
+    if (tamanho == global.jogos.push(jogo)) {
         res.status(200).json({
             message: 'Não foi possivel criar a partida!'
         });
     }
     else{
+        
         return true;
     }
 }

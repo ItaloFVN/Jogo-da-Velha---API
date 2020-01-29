@@ -39,7 +39,7 @@ app.use('/game', gameRoutes);
 app.use('/game/*/movement', movementRoutes); 
 
 //rota para as chamadas '/'
-app.use('/', loadJogosRoutes);
+app.use('/loadJogos', loadJogosRoutes);
 
 
 

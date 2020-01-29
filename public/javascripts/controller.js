@@ -109,7 +109,8 @@ app.controller('controller', function ($scope, $http, $document) {
     }
 
     //busca um jogo pelo id
-    $scope.recebeArquivo = function () {
+    $scope.recebeArquivo = function ($event) {
+        $scope.id = $event.target.innerHTML;
         $http({
             method: 'POST',
             url: 'http://localhost:8080/load',
@@ -145,9 +146,12 @@ app.controller('controller', function ($scope, $http, $document) {
     $scope.buscaJogos = function() {
         $http({
             method: 'POST',
-            url: 'http://localhost:8080/',
+            url: 'http://localhost:8080/loadJogos',
         }).then(function successo(response) {
-            $scope.jogos = response.data;
+            for (let index = 0; index < response.data.jogos.length; index++) {
+                $scope.jogos.push(response.data.jogos[index]);
+                
+            }
             console.log(response.data);
         }, function erro(response) {
             alert('Erro de conexão: Codigo ' + JSON.stringify(response.status));
